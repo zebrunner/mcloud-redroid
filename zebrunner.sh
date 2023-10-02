@@ -7,7 +7,7 @@ cd "${BASEDIR}" || exit
 source utility.sh
 
 start() {
-  if [[ ! -f backup/settings.env && ! -f .env ]]; then
+  if [[ ! -f backup/settings.env ]] || [[ ! -f .env ]]; then
     setup
   else
     docker-compose --env-file .env -f docker-compose.yml up -d
@@ -53,11 +53,13 @@ version() {
   echo -e "mcloud-device: ${DEVICE_VERSION}"
   echo -e "appium: ${APPIUM_VERSION}"
   echo -e "uploader: ${UPLOADER_VERSION}"
+  echo
 }
 
 set_mcloud_settings () {
   local is_confirmed=0
   while [[ $is_confirmed -eq 0 ]]; do
+    echo
     read -r -p "Protocol [$ZBR_PROTOCOL]: " local_protocol
     if [[ ! -z $local_protocol ]]; then
       ZBR_PROTOCOL=$local_protocol
@@ -75,6 +77,7 @@ set_mcloud_settings () {
 
     confirm "Zebrunner MCloud STF URL: $ZBR_PROTOCOL://$ZBR_HOSTNAME:$ZBR_MCLOUD_PORT/stf" "Continue?" "y"
     is_confirmed=$?
+    echo
   done
 
   export ZBR_PROTOCOL=$ZBR_PROTOCOL
@@ -95,6 +98,7 @@ set_mcloud_settings () {
 
   is_confirmed=0
   while [[ $is_confirmed -eq 0 ]]; do
+    echo
     read -r -p "STF RethinkDB [$ZBR_STF_RETHINKDB]: " local_rethinkdb
     if [[ ! -z $local_rethinkdb ]]; then
       ZBR_STF_RETHINKDB=$local_rethinkdb
@@ -118,6 +122,7 @@ set_mcloud_settings () {
 
     confirm "" "Continue?" "y"
     is_confirmed=$?
+    echo
   done
 
   export ZBR_STF_RETHINKDB=$ZBR_STF_RETHINKDB
@@ -126,11 +131,8 @@ set_mcloud_settings () {
 
 
   is_confirmed=0
-  if [[ -z $ZBR_STF_PROVIDER_HOSTNAME ]]; then
-    ZBR_STF_PROVIDER_HOSTNAME=$EXTERNAL_IP
-  fi
-
   while [[ $is_confirmed -eq 0 ]]; do
+    echo
     if [ ! -z $ZBR_STF_PROVIDER_HOSTNAME ]; then
       read -r -p "STF Provider host or public ip [$ZBR_STF_PROVIDER_HOSTNAME]: " local_stf_hostname
     else
@@ -151,6 +153,7 @@ set_mcloud_settings () {
 
     confirm "" "Continue?" "y"
     is_confirmed=$?
+    echo
   done
 
   export ZBR_STF_PROVIDER_HOSTNAME=$ZBR_STF_PROVIDER_HOSTNAME
@@ -170,6 +173,7 @@ set_mcloud_settings () {
 
     confirm "Selenium grid host:port - $ZBR_SELENIUM_HOST:$ZBR_SELENIUM_PORT" "Continue?" "y"
     is_confirmed=$?
+    echo
   done
 
   export ZBR_SELENIUM_HOST=$ZBR_SELENIUM_HOST
@@ -218,6 +222,7 @@ set_aws_storage_settings() {
     echo "Folder: $ZBR_S3_KEY_PATTERN"
     confirm "" "Continue?" "y"
     is_confirmed=$?
+    echo
   done
 
   export ZBR_STORAGE_REGION=$ZBR_STORAGE_REGION
