@@ -57,6 +57,7 @@ version() {
 }
 
 set_mcloud_settings () {
+  echo
   local is_confirmed=0
   while [[ $is_confirmed -eq 0 ]]; do
     read -r -p "Protocol [$ZBR_PROTOCOL]: " local_protocol
