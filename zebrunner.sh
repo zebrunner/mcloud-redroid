@@ -170,7 +170,8 @@ set_mcloud_settings () {
       ZBR_SELENIUM_PORT=$local_selenium_port
     fi
 
-    confirm "Selenium grid host:port - $ZBR_SELENIUM_HOST:$ZBR_SELENIUM_PORT" "Continue?" "y"
+    echo
+    confirm "Selenium grid host:port : $ZBR_SELENIUM_HOST:$ZBR_SELENIUM_PORT" "Continue?" "y"
     is_confirmed=$?
     echo
   done
