@@ -59,7 +59,6 @@ version() {
 set_mcloud_settings () {
   local is_confirmed=0
   while [[ $is_confirmed -eq 0 ]]; do
-    echo
     read -r -p "Protocol [$ZBR_PROTOCOL]: " local_protocol
     if [[ ! -z $local_protocol ]]; then
       ZBR_PROTOCOL=$local_protocol
@@ -98,7 +97,6 @@ set_mcloud_settings () {
 
   is_confirmed=0
   while [[ $is_confirmed -eq 0 ]]; do
-    echo
     read -r -p "STF RethinkDB [$ZBR_STF_RETHINKDB]: " local_rethinkdb
     if [[ ! -z $local_rethinkdb ]]; then
       ZBR_STF_RETHINKDB=$local_rethinkdb
@@ -132,7 +130,6 @@ set_mcloud_settings () {
 
   is_confirmed=0
   while [[ $is_confirmed -eq 0 ]]; do
-    echo
     if [ ! -z $ZBR_STF_PROVIDER_HOSTNAME ]; then
       read -r -p "STF Provider host or public ip [$ZBR_STF_PROVIDER_HOSTNAME]: " local_stf_hostname
     else
