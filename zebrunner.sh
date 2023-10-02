@@ -221,7 +221,6 @@ set_aws_storage_settings() {
     echo "Folder: $ZBR_S3_KEY_PATTERN"
     confirm "" "Continue?" "y"
     is_confirmed=$?
-    echo
   done
 
   export ZBR_STORAGE_REGION=$ZBR_STORAGE_REGION
@@ -274,7 +273,6 @@ setup() {
     set_mcloud_settings
   fi
 
-  echo
   confirm "Use AWS S3 bucket for storing test artifacts (logs and video)?" "Use?" "$ZBR_AWS_S3_ENABLED"
   if [[ $? -eq 1 ]]; then
     ZBR_AWS_S3_ENABLED=1
