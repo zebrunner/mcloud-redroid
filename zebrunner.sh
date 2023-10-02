@@ -75,6 +75,7 @@ set_mcloud_settings () {
       ZBR_MCLOUD_PORT=$local_port
     fi
 
+    echo
     confirm "Zebrunner MCloud STF URL: $ZBR_PROTOCOL://$ZBR_HOSTNAME:$ZBR_MCLOUD_PORT/stf" "Continue?" "y"
     is_confirmed=$?
     echo
