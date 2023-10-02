@@ -4,7 +4,7 @@ networks:
     name: mcloud
 services:
   appium:
-    image: "public.ecr.aws/zebrunner/appium:2.0.5"
+    image: "public.ecr.aws/zebrunner/appium:${APPIUM_VERSION}"
     container_name: "appium"
     ports:
       - "4723:4723"
@@ -16,7 +16,7 @@ services:
     restart: on-failure
 
   uploader:
-    image: "public.ecr.aws/zebrunner/uploader:3.2"
+    image: "public.ecr.aws/zebrunner/uploader:${UPLOADER_VERSION}"
     container_name: "uploader"
     env_file:
       - s3.env
@@ -25,7 +25,7 @@ services:
     restart: on-failure
 
   stf:
-    image: "public.ecr.aws/zebrunner/mcloud-device:2.5.2"
+    image: "public.ecr.aws/zebrunner/mcloud-device:${DEVICE_VERSION}"
     container_name: "device"
     ports:
       - "7400-7410:7400-7410"
@@ -44,8 +44,8 @@ services:
     restart: on-failure
 
   redroid:
-    image: "public.ecr.aws/zebrunner/redroid:13.0.0"
-    container_name: "redroid"
+    image: "public.ecr.aws/zebrunner/redroid:${REDROID_VERSION}"
+    container_name: "${REDROID_UUID}"
     ports:
       - "5555:5555"
     privileged: true

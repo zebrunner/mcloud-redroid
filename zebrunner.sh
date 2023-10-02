@@ -7,19 +7,19 @@ cd "${BASEDIR}" || exit
 source utility.sh
 
 start() {
-  if [[ ! -f backup/settings.env ]]; then
+  if [[ ! -f backup/settings.env && ! -f .env ]]; then
     setup
   else
-    docker-compose -f docker-compose.yml up -d
+    docker-compose --env-file .env -f docker-compose.yml up -d
   fi
 }
 
 stop() {
-  docker-compose -f docker-compose.yml stop
+  docker-compose --env-file .env -f docker-compose.yml stop
 }
 
 down() {
-  docker-compose -f docker-compose.yml down
+  docker-compose --env-file .env -f docker-compose.yml down
 }
 
 shutdown() {
@@ -37,9 +37,10 @@ shutdown() {
     fi
   fi
 
-  docker-compose -f docker-compose.yml down -v
+  docker-compose --env-file .env -f docker-compose.yml down -v
 
   rm -f backup/settings.env
+  rm -f .env
   rm -f s3.env
   rm -f stf.env
   rm -f appium.env
@@ -126,11 +127,15 @@ set_mcloud_settings () {
 
   is_confirmed=0
   if [[ -z $ZBR_STF_PROVIDER_HOSTNAME ]]; then
-    ZBR_STF_PROVIDER_HOSTNAME=`curl -s ifconfig.me`
+    ZBR_STF_PROVIDER_HOSTNAME=$EXTERNAL_IP
   fi
 
   while [[ $is_confirmed -eq 0 ]]; do
-    read -r -p "STF Provider host or public ip [$ZBR_STF_PROVIDER_HOSTNAME]: " local_stf_hostname
+    if [ ! -z $ZBR_STF_PROVIDER_HOSTNAME ]; then
+      read -r -p "STF Provider host or public ip [$ZBR_STF_PROVIDER_HOSTNAME]: " local_stf_hostname
+    else
+      read -r -p "STF Provider host or public ip [$EXTERNAL_IP]: " local_stf_hostname
+    fi
     if [[ ! -z $local_stf_hostname ]]; then
       ZBR_STF_PROVIDER_HOSTNAME=$local_stf_hostname
     fi
@@ -224,11 +229,17 @@ set_aws_storage_settings() {
 
 setup() {
   # load default interactive installer settings
-  source backup/settings.env.original
 
+  source backup/settings.env.original
   # load ./backup/settings.env if exist to declare ZBR* vars from previous run!
   if [[ -f backup/settings.env ]]; then
     source backup/settings.env
+  fi
+
+  source .env.original
+  # load current .env if exist to read actual vars even manually updated!
+  if [[ -f .env ]]; then
+    source .env
   fi
 
   source stf.env.original
@@ -249,6 +260,9 @@ setup() {
     source s3.env
   fi
 
+  EXTERNAL_IP=$(curl -s ifconfig.me)
+  REDROID_UUID=$(uuidgen)
+
   echo
   confirm "Register ReDroid agent in Zebrunner Device Farm?" "Register?" "$ZBR_STF_REGISTER"
   if [[ $? -eq 1 ]]; then
@@ -265,6 +279,10 @@ setup() {
 
   # export all ZBR* variables to save user input
   export_settings
+
+  cp .env.original .env
+  replace .env "EXTERNAL_IP=" "EXTERNAL_IP=$EXTERNAL_IP"
+  replace .env "REDROID_UUID=" "REDROID_UUID=$REDROID_UUID"
 
   cp stf.env.original stf.env
   replace stf.env "PUBLIC_IP_PROTOCOL=" "PUBLIC_IP_PROTOCOL=${ZBR_PROTOCOL}"
@@ -289,6 +307,8 @@ setup() {
   replace appium.env "SELENIUM_HOST=" "SELENIUM_HOST=$ZBR_SELENIUM_HOST"
   replace appium.env "SELENIUM_PORT=" "SELENIUM_PORT=$ZBR_SELENIUM_PORT"
   replace appium.env "STF_PROVIDER_HOST=" "STF_PROVIDER_HOST=$ZBR_STF_PROVIDER_HOSTNAME"
+  replace appium.env "DEVICE_NAME=" "DEVICE_NAME=Redroid"
+  replace appium.env "ANDROID_DEVICE=" "ANDROID_DEVICE=$REDROID_UUID"
 
 
   cp s3.env.original s3.env
