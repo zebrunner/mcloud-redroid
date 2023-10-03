@@ -132,11 +132,12 @@ set_mcloud_settings () {
 
   is_confirmed=0
   while [[ $is_confirmed -eq 0 ]]; do
-    if [ ! -z $ZBR_STF_PROVIDER_HOSTNAME ]; then
-      read -r -p "STF Provider host or public ip [$ZBR_STF_PROVIDER_HOSTNAME]: " local_stf_hostname
-    else
-      read -r -p "STF Provider host or public ip [$EXTERNAL_IP]: " local_stf_hostname
+
+    if [ -z $ZBR_STF_PROVIDER_HOSTNAME ]; then
+      ZBR_STF_PROVIDER_HOSTNAME=$EXTERNAL_IP
     fi
+
+    read -r -p "STF Provider host or public ip [$ZBR_STF_PROVIDER_HOSTNAME]: " local_stf_hostname
     if [[ ! -z $local_stf_hostname ]]; then
       ZBR_STF_PROVIDER_HOSTNAME=$local_stf_hostname
     fi
