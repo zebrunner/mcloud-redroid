@@ -266,7 +266,6 @@ setup() {
   fi
 
   EXTERNAL_IP=$(curl -s ifconfig.me)
-  REDROID_UUID=$(uuidgen)
 
   echo
   confirm "Register ReDroid agent in Zebrunner Device Farm?" "Register?" "$ZBR_STF_REGISTER"
@@ -286,7 +285,6 @@ setup() {
 
   cp .env.original .env
   replace .env "EXTERNAL_IP=" "EXTERNAL_IP=$EXTERNAL_IP"
-  replace .env "REDROID_UUID=" "REDROID_UUID=$REDROID_UUID"
 
   cp stf.env.original stf.env
   replace stf.env "PUBLIC_IP_PROTOCOL=" "PUBLIC_IP_PROTOCOL=${ZBR_PROTOCOL}"
@@ -301,6 +299,7 @@ setup() {
   replace stf.env "STF_PROVIDER_HOST=" "STF_PROVIDER_HOST=$ZBR_STF_PROVIDER_HOSTNAME"
   replace stf.env "DEVICE_UDID=" "DEVICE_UDID=$ZBR_STF_PROVIDER_HOSTNAME:5555"
 
+
   cp appium.env.original appium.env
   if [ $ZBR_STF_REGISTER -eq 1 ]; then
     replace appium.env "CONNECT_TO_GRID=false" "CONNECT_TO_GRID=true"
@@ -308,11 +307,12 @@ setup() {
     replace appium.env "DEFAULT_CAPABILITIES=true" "DEFAULT_CAPABILITIES=false"
   fi
 
+  replace appium.env "ANDROID_DEVICE=" "ANDROID_DEVICE=$EXTERNAL_IP"
+  replace appium.env "DEVICE_UDID=" "DEVICE_UDID=$EXTERNAL_IP:5555"
   replace appium.env "SELENIUM_HOST=" "SELENIUM_HOST=$ZBR_SELENIUM_HOST"
   replace appium.env "SELENIUM_PORT=" "SELENIUM_PORT=$ZBR_SELENIUM_PORT"
   replace appium.env "STF_PROVIDER_HOST=" "STF_PROVIDER_HOST=$ZBR_STF_PROVIDER_HOSTNAME"
   replace appium.env "DEVICE_NAME=" "DEVICE_NAME=Redroid"
-  replace appium.env "ANDROID_DEVICE=" "ANDROID_DEVICE=$REDROID_UUID"
 
 
   cp s3.env.original s3.env

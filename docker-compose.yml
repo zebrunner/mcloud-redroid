@@ -45,7 +45,7 @@ services:
 
   redroid:
     image: "public.ecr.aws/zebrunner/redroid:${REDROID_VERSION}"
-    container_name: "${REDROID_UUID}"
+    container_name: "redroid"
     ports:
       - "5555:5555"
     privileged: true
