@@ -297,28 +297,28 @@ setup() {
   replace stf.env "STF_PROVIDER_PUBLIC_IP=" "STF_PROVIDER_PUBLIC_IP=${ZBR_HOSTNAME}"
   replace stf.env "PUBLIC_IP_PORT=" "PUBLIC_IP_PORT=${ZBR_MCLOUD_PORT}"
 
-  replace stf.env "STF_PROVIDER_NAME=redroid-agent" "STF_PROVIDER_NAME=$ZBR_STF_PROVIDER_NAME"
-
   replace stf.env "RETHINKDB_PORT_28015_TCP=" "RETHINKDB_PORT_28015_TCP=$ZBR_STF_RETHINKDB"
   replace stf.env "STF_PROVIDER_CONNECT_PUSH=" "STF_PROVIDER_CONNECT_PUSH=$ZBR_STF_PROVIDER_CONNECT_PUSH"
   replace stf.env "STF_PROVIDER_CONNECT_SUB=" "STF_PROVIDER_CONNECT_SUB=$ZBR_STF_PROVIDER_CONNECT_SUB"
+
   replace stf.env "STF_PROVIDER_HOST=" "STF_PROVIDER_HOST=$ZBR_STF_PROVIDER_HOSTNAME"
   replace stf.env "DEVICE_UDID=" "DEVICE_UDID=$ZBR_STF_PROVIDER_HOSTNAME:5555"
+  replace stf.env "STF_PROVIDER_NAME=redroid-agent" "STF_PROVIDER_NAME=$ZBR_STF_PROVIDER_NAME"
 
   # appium.env
   cp appium.env.original appium.env
+  replace appium.env "DEVICE_UDID=" "DEVICE_UDID=$EXTERNAL_IP:5555"
+  replace appium.env "ANDROID_DEVICE=" "ANDROID_DEVICE=$EXTERNAL_IP"
+
   if [ $ZBR_STF_REGISTER -eq 1 ]; then
     replace appium.env "CONNECT_TO_GRID=false" "CONNECT_TO_GRID=true"
   else
     replace appium.env "DEFAULT_CAPABILITIES=true" "DEFAULT_CAPABILITIES=false"
   fi
 
-  replace appium.env "ANDROID_DEVICE=" "ANDROID_DEVICE=$EXTERNAL_IP"
-  replace appium.env "DEVICE_UDID=" "DEVICE_UDID=$EXTERNAL_IP:5555"
   replace appium.env "SELENIUM_HOST=" "SELENIUM_HOST=$ZBR_SELENIUM_HOST"
   replace appium.env "SELENIUM_PORT=" "SELENIUM_PORT=$ZBR_SELENIUM_PORT"
   replace appium.env "STF_PROVIDER_HOST=" "STF_PROVIDER_HOST=$ZBR_STF_PROVIDER_HOSTNAME"
-  replace appium.env "DEVICE_NAME=" "DEVICE_NAME=Redroid"
 
   # s3.env
   cp s3.env.original s3.env
