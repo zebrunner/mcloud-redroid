@@ -58,6 +58,7 @@ version() {
 
 set_mcloud_settings () {
   echo
+  # Zebrunner MCloud STF URL
   local is_confirmed=0
   while [[ $is_confirmed -eq 0 ]]; do
     read -r -p "Protocol [$ZBR_PROTOCOL]: " local_protocol
@@ -85,6 +86,7 @@ set_mcloud_settings () {
   export ZBR_HOSTNAME=$ZBR_HOSTNAME
   export ZBR_MCLOUD_PORT=$ZBR_MCLOUD_PORT
 
+  # STF Settings
   if [ -z $ZBR_STF_RETHINKDB ]; then
     ZBR_STF_RETHINKDB=tcp://$ZBR_HOSTNAME:28015
   fi
@@ -129,7 +131,7 @@ set_mcloud_settings () {
   export ZBR_STF_PROVIDER_CONNECT_PUSH=$ZBR_STF_PROVIDER_CONNECT_PUSH
   export ZBR_STF_PROVIDER_CONNECT_SUB=$ZBR_STF_PROVIDER_CONNECT_SUB
 
-
+  # STF Provider host and name
   is_confirmed=0
   while [[ $is_confirmed -eq 0 ]]; do
 
@@ -159,6 +161,7 @@ set_mcloud_settings () {
   export ZBR_STF_PROVIDER_HOSTNAME=$ZBR_STF_PROVIDER_HOSTNAME
   export ZBR_STF_PROVIDER_NAME=$ZBR_STF_PROVIDER_NAME
 
+  # Selenium grid host:port
   is_confirmed=0
   while [[ $is_confirmed -eq 0 ]]; do
     read -r -p "Selenium Grid host [$ZBR_SELENIUM_HOST]: " local_selenium_host
@@ -182,10 +185,11 @@ set_mcloud_settings () {
 }
 
 set_aws_storage_settings() {
-  ## AWS S3 storage
-  local is_confirmed=0
+  # AWS S3 storage
   echo
-  echo "AWS S3 storage"
+  echo "AWS S3 storage:"
+
+  local is_confirmed=0
   while [[ $is_confirmed -eq 0 ]]; do
     read -r -p "Region [$ZBR_STORAGE_REGION]: " local_region
     if [[ ! -z $local_region ]]; then
@@ -283,9 +287,11 @@ setup() {
   # export all ZBR* variables to save user input
   export_settings
 
+  # .env
   cp .env.original .env
   replace .env "EXTERNAL_IP=" "EXTERNAL_IP=$EXTERNAL_IP"
 
+  # stf.env
   cp stf.env.original stf.env
   replace stf.env "PUBLIC_IP_PROTOCOL=" "PUBLIC_IP_PROTOCOL=${ZBR_PROTOCOL}"
   replace stf.env "STF_PROVIDER_PUBLIC_IP=" "STF_PROVIDER_PUBLIC_IP=${ZBR_HOSTNAME}"
@@ -314,7 +320,7 @@ setup() {
   replace appium.env "STF_PROVIDER_HOST=" "STF_PROVIDER_HOST=$ZBR_STF_PROVIDER_HOSTNAME"
   replace appium.env "DEVICE_NAME=" "DEVICE_NAME=Redroid"
 
-
+  # s3.env
   cp s3.env.original s3.env
   if [ $ZBR_AWS_S3_ENABLED -eq 1 ]; then
     replace s3.env "AWS_DEFAULT_REGION=" "AWS_DEFAULT_REGION=$ZBR_STORAGE_REGION"
