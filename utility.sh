@@ -4,10 +4,6 @@ export_settings() {
   export -p | grep "ZBR" > backup/settings.env
 }
 
-random_string() {
-    cat /dev/urandom | env LC_CTYPE=C tr -dc a-zA-Z0-9 | head -c 48; echo
-}
-
 echo_warning() {
     echo "
       WARNING! $1"
@@ -77,4 +73,3 @@ confirm() {
       echo
     done
 }
-
