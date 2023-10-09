@@ -8,7 +8,7 @@ source utility.sh
 
 start() {
   if [[ ! -f backup/settings.env ]] || [[ ! -f .env ]]; then
-    echo_warning "Configure in advance udsing './zebrunner.sh setup'"
+    echo_warning "Configure in advance using './zebrunner.sh setup'"
     exit 0
   fi
 
