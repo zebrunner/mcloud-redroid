@@ -8,8 +8,8 @@ source utility.sh
 
 start() {
   if [[ ! -f backup/settings.env ]] || [[ ! -f .env ]]; then
-    echo_warning "Configure in advance udsing `./zebrunner.sh setup`"
-    exit -1
+    echo_warning "Configure in advance udsing './zebrunner.sh setup'"
+    exit 0
   fi
 
   docker-compose --env-file .env -f docker-compose.yml up -d
