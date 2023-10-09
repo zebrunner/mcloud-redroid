@@ -9,9 +9,10 @@ source utility.sh
 start() {
   if [[ ! -f backup/settings.env ]] || [[ ! -f .env ]]; then
     setup
-  else
-    docker-compose --env-file .env -f docker-compose.yml up -d
+    exit -1
   fi
+
+  docker-compose --env-file .env -f docker-compose.yml up -d
 }
 
 stop() {
