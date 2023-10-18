@@ -10,9 +10,9 @@ Feel free to support the development with a [**donation**](https://www.paypal.co
 1. Setup your machine due to [redroid requirements](https://github.com/remote-android/redroid-doc) 
 2. Clone [mcloud-redroid](https://github.com/zebrunner/mcloud-redroid) and setup:
    ```
-   https://github.com/zebrunner/mcloud-redroid.git && cd mcloud-redroid && ./zebrunner.sh setup
+   git clone https://github.com/zebrunner/mcloud-redroid.git && cd mcloud-redroid && ./zebrunner.sh setup
    ```
-3. Provide actual data for settings or use default values
+3. Provide actual data or use default values
 4. Start services `./zebrunner.sh start`
    > For default settings visit [Demo Zebrunner STF](https://demo.zebrunner.farm/stf) to see your device. Login with `admin/changeit` credentials
 6. Direct Appium url is `http://hostname:4723/wd/hub`
