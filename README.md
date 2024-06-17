@@ -23,12 +23,11 @@ Feel free to support the development with a [**donation**](https://www.paypal.co
 7. [Optional] Setup your own [Zebrunner Device Farm](https://github.com/zebrunner/mcloud) for actual usage.
 
 ## Update components
-1. Pull a new version of the image you want to update:
+1. Pull a new version:
    ```
-   docker pull <image_name>:<image_version>
+   git pull
    ```
-2. Change updated component version in `.env` file
-3. Setup and restart
+2. Setup and restart
    ```
    ./zebrunner.sh setup
    ./zebrunner.sh restart
