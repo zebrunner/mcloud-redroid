@@ -20,7 +20,19 @@ Feel free to support the development with a [**donation**](https://www.paypal.co
    ```
    scrcpy --tcpip=hostanme:5555
    ```
-7. [Optional] Setup your own [Zebrunner Device Farm](https://github.com/zebrunner/mcloud) for actual usage. 
+7. [Optional] Setup your own [Zebrunner Device Farm](https://github.com/zebrunner/mcloud) for actual usage.
+
+## Update components
+1. Pull a new version of the image you want to update:
+   ```
+   docker pull <image_name>:<image_version>
+   ```
+2. Change updated component version in `.env` file
+3. Setup and restart
+   ```
+   ./zebrunner.sh setup
+   ./zebrunner.sh restart
+   ```
 
 ## Documentation and free support
 * [Zebrunner PRO](https://zebrunner.com)
