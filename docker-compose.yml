@@ -53,7 +53,7 @@ services:
       - "device-volume:/tmp/log"
     links:
       - "connector:connector"
-      - "device:device"
+#      - "device:device"
     restart: on-failure
 
   redroid:
