@@ -45,7 +45,7 @@ shutdown() {
   rm -f s3.env
   rm -f stf.env
   rm -f appium.env
-  rm - f connector.env
+  rm -f connector.env
 }
 
 version() {
