@@ -12,21 +12,6 @@ services:
       - "device-volume:/tmp/log"
     restart: on-failure
 
-  appium:
-    image: "${APPIUM_IMAGE}:${APPIUM_VERSION}"
-    container_name: "appium"
-    ports:
-      - "4723:4723"
-    env_file:
-      - appium.env
-    volumes:
-      - "appium-storage-volume:/opt/appium-storage"
-      - "device-volume:/tmp/log"
-    links:
-      - "connector:connector"
-      - "device:device"
-    restart: on-failure
-
   uploader:
     image: "${UPLOADER_IMAGE}:${UPLOADER_VERSION}"
     container_name: "uploader"
@@ -52,6 +37,21 @@ services:
         max-size: 50m
     links:
       - "connector:connector"
+    restart: on-failure
+
+  appium:
+    image: "${APPIUM_IMAGE}:${APPIUM_VERSION}"
+    container_name: "appium"
+    ports:
+      - "4723:4723"
+    env_file:
+      - appium.env
+    volumes:
+      - "appium-storage-volume:/opt/appium-storage"
+      - "device-volume:/tmp/log"
+    links:
+      - "connector:connector"
+      - "device:device"
     restart: on-failure
 
   redroid:
