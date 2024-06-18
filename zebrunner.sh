@@ -45,6 +45,7 @@ shutdown() {
   rm -f s3.env
   rm -f stf.env
   rm -f appium.env
+  rm - f connector.env
 }
 
 version() {
@@ -54,6 +55,7 @@ version() {
   echo -e "mcloud-device: ${DEVICE_VERSION}"
   echo -e "appium: ${APPIUM_VERSION}"
   echo -e "uploader: ${UPLOADER_VERSION}"
+  echo -e "connector: ${ANDROID_CONNECTOR_VERSION}"
   echo
 }
 
@@ -268,6 +270,12 @@ setup() {
   # load current s3.env if exist to read actual vars even manually updated!
   if [[ -f s3.env ]]; then
     source s3.env
+  fi
+
+  source connector.env.original
+  # load current connector.env if exist to read actual vars even manually updated!
+  if [[ -f connector.env ]]; then
+    source connector.env
   fi
 
   EXTERNAL_IP=$(curl -s ifconfig.me)

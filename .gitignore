@@ -3,3 +3,4 @@ stf.env
 s3.env
 .env
 backup/settings.env
+.idea/

@@ -3,8 +3,17 @@ networks:
   default:
     name: mcloud
 services:
+  connector:
+    image: "${ANDROID_CONNECTOR_IMAGE}:${ANDROID_CONNECTOR_VERSION}"
+    container_name: "connector"
+    env_file:
+      - connector.env
+    volumes:
+      - "device-volume:/tmp/log"
+    restart: on-failure
+
   appium:
-    image: "public.ecr.aws/zebrunner/appium:${APPIUM_VERSION}"
+    image: "${APPIUM_IMAGE}:${APPIUM_VERSION}"
     container_name: "appium"
     ports:
       - "4723:4723"
@@ -13,10 +22,13 @@ services:
     volumes:
       - "appium-storage-volume:/opt/appium-storage"
       - "device-volume:/tmp/log"
+    links:
+      - "connector:connector"
+      - "device:device"
     restart: on-failure
 
   uploader:
-    image: "public.ecr.aws/zebrunner/uploader:${UPLOADER_VERSION}"
+    image: "${UPLOADER_IMAGE}:${UPLOADER_VERSION}"
     container_name: "uploader"
     env_file:
       - s3.env
@@ -25,7 +37,7 @@ services:
     restart: on-failure
 
   stf:
-    image: "public.ecr.aws/zebrunner/mcloud-device:${DEVICE_VERSION}"
+    image: "${DEVICE_IMAGE}:${DEVICE_VERSION}"
     container_name: "device"
     ports:
       - "7400-7410:7400-7410"
@@ -39,12 +51,11 @@ services:
       options:
         max-size: 50m
     links:
-      - "appium:appium"
-      - "redroid:redroid"
+      - "connector:connector"
     restart: on-failure
 
   redroid:
-    image: "public.ecr.aws/zebrunner/redroid:${REDROID_VERSION}"
+    image: "${REDROID_IMAGE}:${REDROID_VERSION}"
     container_name: "redroid"
     ports:
       - "5555:5555"
