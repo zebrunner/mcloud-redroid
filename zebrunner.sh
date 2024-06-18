@@ -338,6 +338,9 @@ setup() {
     replace s3.env "S3_KEY_PATTERN=" "S3_KEY_PATTERN=$ZBR_S3_KEY_PATTERN"
   fi
 
+  # connector.env
+  cp connector.env.original connector.env
+
   echo_warning "Your services needs to be started after setup."
   confirm "" "      Start now?" "y"
   if [[ $? -eq 1 ]]; then
