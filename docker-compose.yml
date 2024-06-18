@@ -10,6 +10,8 @@ services:
       - connector.env
     volumes:
       - "device-volume:/tmp/log"
+    links:
+      - "redroid:redroid"
     restart: on-failure
 
   uploader:
