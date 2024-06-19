@@ -317,7 +317,6 @@ setup() {
   # appium.env
   cp appium.env.original appium.env
   replace appium.env "DEVICE_UDID=" "DEVICE_UDID=$EXTERNAL_IP:5555"
-  replace appium.env "ANDROID_DEVICE=" "ANDROID_DEVICE=$EXTERNAL_IP"
 
   if [ $ZBR_STF_REGISTER -eq 1 ]; then
     replace appium.env "CONNECT_TO_GRID=false" "CONNECT_TO_GRID=true"
@@ -340,6 +339,7 @@ setup() {
 
   # connector.env
   cp connector.env.original connector.env
+  replace connector.env "ANDROID_DEVICE=" "ANDROID_DEVICE=$EXTERNAL_IP:5555"
 
   echo_warning "Your services needs to be started after setup."
   confirm "" "      Start now?" "y"
