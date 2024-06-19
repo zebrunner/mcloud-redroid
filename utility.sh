@@ -29,7 +29,8 @@ replace() {
     #echo "new: $new"
 
     # replace ${old} followed by any characters except new-line with ${new}
-    content=$(echo "$content" | sed "s/${old}[^$]*/${new}/")
+    # #-char used as delimiter to exclude cases with slashes
+    content=$(echo "$content" | sed "s#${old}[^$]*#${new}#")
 
     #echo "content: $content"
 
