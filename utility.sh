@@ -28,8 +28,8 @@ replace() {
     new=$3
     #echo "new: $new"
 
-    # replace ${old} followed by any characters except whitespace with ${new}
-    content=$(echo $content | sed "s/${old}[^ ]*/${new}/")
+    # replace ${old} followed by any characters except new-line with ${new}
+    content=$(echo "$content" | sed "s/${old}[^$]*/${new}/")
 
     #echo "content: $content"
 
