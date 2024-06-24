@@ -59,7 +59,7 @@ version() {
   echo
 }
 
-set_mcloud_settings () {
+set_mcloud_settings() {
   echo
   # Zebrunner MCloud STF URL
   local is_confirmed=0
@@ -311,7 +311,7 @@ setup() {
   replace stf.env "STF_PROVIDER_CONNECT_SUB=" "STF_PROVIDER_CONNECT_SUB=$ZBR_STF_PROVIDER_CONNECT_SUB"
 
   replace stf.env "STF_PROVIDER_HOST=" "STF_PROVIDER_HOST=$ZBR_STF_PROVIDER_HOSTNAME"
-    replace stf.env "DEVICE_UDID=" "DEVICE_UDID=$ZBR_STF_PROVIDER_HOSTNAME:5555"
+  replace stf.env "DEVICE_UDID=" "DEVICE_UDID=$ZBR_STF_PROVIDER_HOSTNAME:5555"
   replace stf.env "STF_PROVIDER_NAME=redroid-agent" "STF_PROVIDER_NAME=$ZBR_STF_PROVIDER_NAME"
 
   # appium.env
