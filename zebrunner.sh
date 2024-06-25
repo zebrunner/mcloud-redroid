@@ -45,6 +45,7 @@ shutdown() {
   rm -f s3.env
   rm -f stf.env
   rm -f appium.env
+  rm -f connector.env
 }
 
 version() {
@@ -54,10 +55,11 @@ version() {
   echo -e "mcloud-device: ${DEVICE_VERSION}"
   echo -e "appium: ${APPIUM_VERSION}"
   echo -e "uploader: ${UPLOADER_VERSION}"
+  echo -e "connector: ${ANDROID_CONNECTOR_VERSION}"
   echo
 }
 
-set_mcloud_settings () {
+set_mcloud_settings() {
   echo
   # Zebrunner MCloud STF URL
   local is_confirmed=0
@@ -270,6 +272,12 @@ setup() {
     source s3.env
   fi
 
+  source connector.env.original
+  # load current connector.env if exist to read actual vars even manually updated!
+  if [[ -f connector.env ]]; then
+    source connector.env
+  fi
+
   EXTERNAL_IP=$(curl -s ifconfig.me)
 
   echo
@@ -309,7 +317,6 @@ setup() {
   # appium.env
   cp appium.env.original appium.env
   replace appium.env "DEVICE_UDID=" "DEVICE_UDID=$EXTERNAL_IP:5555"
-  replace appium.env "ANDROID_DEVICE=" "ANDROID_DEVICE=$EXTERNAL_IP"
 
   if [ $ZBR_STF_REGISTER -eq 1 ]; then
     replace appium.env "CONNECT_TO_GRID=false" "CONNECT_TO_GRID=true"
@@ -329,6 +336,10 @@ setup() {
     replace s3.env "AWS_SECRET_ACCESS_KEY=" "AWS_SECRET_ACCESS_KEY=$ZBR_STORAGE_SECRET_KEY"
     replace s3.env "S3_KEY_PATTERN=" "S3_KEY_PATTERN=$ZBR_S3_KEY_PATTERN"
   fi
+
+  # connector.env
+  cp connector.env.original connector.env
+  replace connector.env "ANDROID_DEVICE=" "ANDROID_DEVICE=$EXTERNAL_IP:5555"
 
   echo_warning "Your services needs to be started after setup."
   confirm "" "      Start now?" "y"

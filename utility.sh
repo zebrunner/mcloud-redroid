@@ -27,7 +27,10 @@ replace() {
 
     new=$3
     #echo "new: $new"
-    content=${content//"$old"/$new}
+
+    # replace ${old} followed by any characters except end-of-line with ${new}
+    # '#' - char used as delimiter to exclude cases with slashes
+    content=$(echo "$content" | sed "s#${old}[^$]*#${new}#")
 
     #echo "content: $content"
 
