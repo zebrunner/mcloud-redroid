@@ -9,18 +9,37 @@ Feel free to support the development with a [**donation**](https://www.paypal.co
 ## Usage
 1. Setup your machine due to [redroid requirements](https://github.com/remote-android/redroid-doc) 
 2. Clone [mcloud-redroid](https://github.com/zebrunner/mcloud-redroid) and setup:
-   ```
+   ```bash
    git clone https://github.com/zebrunner/mcloud-redroid.git && cd mcloud-redroid && ./zebrunner.sh setup
    ```
 3. Provide actual data or use default values
 4. Start services `./zebrunner.sh start`
    > For default settings visit [Demo Zebrunner STF](https://demo.zebrunner.farm/stf) to see your device. Login with `admin/changeit` credentials
-6. Direct Appium url is `http://hostname:4723/wd/hub`
+5. Direct Appium url is `http://hostname:4723/wd/hub`
    > To control Redroid video and audio use [scrcpy](https://github.com/Genymobile/scrcpy)
-   ```
+   ```bash
    scrcpy --tcpip=hostanme:5555
    ```
-7. [Optional] Setup your own [Zebrunner Device Farm](https://github.com/zebrunner/mcloud) for actual usage. 
+6. [Optional] Setup your own [Zebrunner Device Farm](https://github.com/zebrunner/mcloud) for actual usage.
+
+## Update components
+1. Save your settings (`*.env` files)
+2. Shutdown your current Mcloud-Redroid instance:
+   ```bash
+   ./zebrunner.sh shutdown
+   ```
+3. Pull new repository version:
+   ```bash
+   git pull
+   ```
+4. Setup preferred Redroid version in  `.env.original` file:
+   ```bash
+   REDROID_VERSION=XX.X.X
+   ```
+5. Setup Redroid according to your previous configuration:
+   ```bash
+   ./zebrunner.sh setup
+   ```
 
 ## Documentation and free support
 * [Zebrunner PRO](https://zebrunner.com)
