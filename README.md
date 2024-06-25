@@ -22,7 +22,7 @@ Feel free to support the development with a [**donation**](https://www.paypal.co
    ```
 6. [Optional] Setup your own [Zebrunner Device Farm](https://github.com/zebrunner/mcloud) for actual usage.
 
-## Update components
+## Upgrade components
 1. Save your settings (`*.env` files)
 2. Shutdown your current Mcloud-Redroid instance:
    ```bash
